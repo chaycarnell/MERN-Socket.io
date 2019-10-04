@@ -1,0 +1,36 @@
+{
+  "git.ignoreLimitWarning": true,
+  "eslint.enable": true,
+  "prettier.eslintIntegration": true,
+  "eslint.autoFixOnSave": true,
+  "editor.formatOnSave": true,
+  "javascript.implicitProjectConfig.experimentalDecorators": true,
+  "[markdown]": {
+    "editor.wordWrap": "wordWrapColumn",
+    "editor.wordWrapColumn": 80
+  },
+  "editor.insertSpaces": true,
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/libs": true,
+    "**/assets": true,
+    "**/static": true,
+    "**/bower_components": true,
+    "**/build": true,
+    "**/dist": true,
+    "**/test-reports": true,
+    "**/yarn.lock": true
+  },
+  "workbench.colorCustomizations": {
+    "activityBarBadge.background": "#d14d4d",
+    "list.activeSelectionForeground": "#C6FF00",
+    "list.inactiveSelectionForeground": "#C6FF00",
+    "list.highlightForeground": "#C6FF00",
+    "scrollbarSlider.activeBackground": "#C6FF0050",
+    "editorSuggestWidget.highlightForeground": "#C6FF00",
+    "textLink.foreground": "#C6FF00",
+    "progressBar.background": "#C6FF00",
+    "pickerGroup.foreground": "#C6FF00",
+    "tab.unfocusedActiveBorder": "#fff0"
+  }
+}

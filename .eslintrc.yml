@@ -1,0 +1,57 @@
+root: true
+
+parser: 'babel-eslint'
+parserOptions:
+  ecmaVersion: 8
+  sourceType: 'module'
+  ecmaFeatures:
+    jsx: false
+    experimentalObjectRestSpread: true
+
+env:
+  es6: true
+  browser: true
+
+extends:
+  - 'prettier'
+
+plugins:
+  - 'prettier'
+  - 'react'
+
+rules:
+  no-unused-vars: 1
+  react/jsx-uses-react: 1
+  react/jsx-uses-vars: 1
+  arrow-parens:
+    - 'error'
+    - 'as-needed'
+  operator-linebreak: 'off'
+  comma-dangle: 'off'
+  no-return-assign: 'off'
+  global-require: 'off'
+  implicit-arrow-linebreak: 'off'
+  import/no-unresolved: 'off'
+  no-underscore-dangle: 'off'
+  no-unused-expressions: 'off'
+  object-curly-newline: 'off'
+  prettier/prettier: 'error'
+  func-names: 'off'
+  generator-star-spacing: 'off'
+  no-param-reassign: 'off'
+  function-paren-newline: 'off'
+  consistent-return: 'off'
+  no-throw-literal: 'off'
+  nonblock-statement-body-position: 'off'
+  indent: 'off'
+  curly: 'off'
+  import/prefer-default-export: 'off'
+  no-confusing-arrow: 'off'
+  space-before-function-paren: 'off'
+  import/no-extraneous-dependencies: 'off'
+  class-methods-use-this: 'off'
+  camelcase: 'off'
+  import/no-cycle: 'off'
+
+globals:
+  __static: true
