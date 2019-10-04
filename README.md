@@ -1,6 +1,6 @@
 # MERN template
 
-A simple MERN app template that includes socket.io for some realtime fun
+A simple MERN app template that includes socket.io for some real-time fun
 
 ### Getting Started
 
