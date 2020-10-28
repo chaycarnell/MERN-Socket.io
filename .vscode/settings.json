@@ -32,5 +32,8 @@
     "progressBar.background": "#C6FF00",
     "pickerGroup.foreground": "#C6FF00",
     "tab.unfocusedActiveBorder": "#fff0"
+  },
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
   }
 }

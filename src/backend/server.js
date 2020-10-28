@@ -1,35 +1,32 @@
-// Libs
 require('dotenv').config();
-const connectMongo = require('./db/config').connectMongo;
+// Libs
 const express = require('express');
 const bodyParser = require('body-parser');
 const compression = require('compression');
+const helmet = require('helmet');
 const cors = require('cors');
 const path = require('path');
 const app = express();
-const http = require('http').createServer(app);
-const io = require('socket.io')(http);
+const server = require('http').createServer(app);
+const io = require('socket.io')(server);
 const port = process.env.PORT || 3001;
+const { connectMongo } = require('./db/config');
+
+// Express config
+app.use(compression());
+app.use(helmet());
+app.use(cors());
+app.use(express.static(__dirname + './../../'));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+// Set reference to React application
+const reactApp = path.join(__dirname, '../../public/index.html');
 
 // Routes
 const example = require('./api/routes/example');
 
-// Express config
-app.use(compression());
-app.use(express.static(__dirname + './../../'));
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-app.use(cors());
-
-// the __dirname is the current directory from where the script is running
-const homePage = path.join(__dirname, '../../public/index.html');
-
-/// Serve the homePage
-app.get('/', function(req, res) {
-  res.sendFile(homePage);
-});
-
-/** ROUTES **/
+// Apply routes
 app.use('/api/example', example);
 
 // Handle client socket connections to server
@@ -53,8 +50,13 @@ io.on('connection', socket => {
 connectMongo(err => {
   if (err) throw err;
   // Start listening on server port once connected to DB
-  http.listen(port, err => {
+  server.listen(port, err => {
     if (err) throw err;
     console.log(`App is running on ${port}`);
   });
+});
+
+// Serve the React application
+app.get('/', (req, res) => {
+  res.sendFile(reactApp);
 });

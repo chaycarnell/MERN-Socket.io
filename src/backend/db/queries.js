@@ -1,48 +1,48 @@
-const { mongo } = require('./config');
+const { db } = require('./config');
 
 const insertOne = ({ collection = '', value = {} }) =>
-  mongo()
+  db()
     .collection(collection)
     .insertOne(value);
 
 const insertMany = ({ collection = '', values = [] }) =>
-  mongo()
+  db()
     .collection(collection)
     .insertMany(values);
 
 const selectOne = ({ collection = '', query = {} }) =>
-  mongo()
+  db()
     .collection(collection)
     .findOne(query);
 
 const selectMany = ({ collection = '', query = {}, sort = {} }) =>
-  mongo()
+  db()
     .collection(collection)
     .find(query)
     .sort(sort)
     .toArray();
 
 const updateOne = ({ collection = '', query = {}, update = {} }) =>
-  mongo()
+  db()
     .collection(collection)
     .updateOne(query, {
       $set: update
     });
 
 const updateMany = ({ collection = '', query = {}, update = {} }) =>
-  mongo()
+  db()
     .collection(collection)
     .updateMany(query, {
       $set: update
     });
 
 const deleteOne = ({ collection = '', query = {} }) =>
-  mongo()
+  db()
     .collection(collection)
     .deleteOne(query);
 
 const deleteMany = ({ collection = '', query = {} }) =>
-  mongo()
+  db()
     .collection(collection)
     .deleteMany(query);
 
