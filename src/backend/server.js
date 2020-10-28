@@ -20,14 +20,11 @@ app.use(express.static(__dirname + './../../'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-// Set reference to React application
-const reactApp = path.join(__dirname, '../../public/index.html');
-
 // Routes
 const example = require('./api/routes/example');
 
 // Apply routes
-app.use('/api/example', example);
+app.use('/api/public', example);
 
 // Handle client socket connections to server
 io.on('connection', socket => {
@@ -39,7 +36,7 @@ io.on('connection', socket => {
     io.to(data.id).emit('joined', `User ${data.id} joined`);
   });
   // Log number of connected clients to server
-  console.log(io.engine.clientsCount);
+  console.log('Connected clients: ', io.engine.clientsCount);
   // Handle client disconnects
   socket.on('disconnect', () => {
     console.log('Client disconnected');
@@ -56,7 +53,9 @@ connectMongo(err => {
   });
 });
 
-// Serve the React application
-app.get('/', (req, res) => {
-  res.sendFile(reactApp);
+// Serve React app
+// Wildcard match will handle returning index when page is refreshed
+// Routing would otherwise return and error i.e. 'cannot get /someRoute'
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../../public/index.html'));
 });
