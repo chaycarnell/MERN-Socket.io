@@ -10,7 +10,6 @@
     "heroku-postbuild": "webpack --mode production",
     "build": "webpack --mode production",
     "test": "jest",
-    "prettier": "prettier --write **/*.js",
     "lint": "eslint ./src"
   },
   "repository": {
