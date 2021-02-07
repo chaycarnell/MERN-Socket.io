@@ -6,9 +6,16 @@ const compression = require('compression');
 const helmet = require('helmet');
 const cors = require('cors');
 const path = require('path');
+
 const app = express();
 const server = require('http').createServer(app);
-const io = require('socket.io')(server);
+
+const io = require('socket.io')(server, {
+  cors: {
+    methods: ['GET', 'POST'],
+  },
+});
+
 const port = process.env.PORT || 3001;
 const { connectMongo } = require('./db/config');
 
@@ -16,7 +23,7 @@ const { connectMongo } = require('./db/config');
 app.use(compression());
 app.use(helmet());
 app.use(cors());
-app.use(express.static(__dirname + './../../'));
+app.use(express.static(path.join(__dirname, './../../')));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
@@ -27,29 +34,21 @@ const example = require('./api/routes/example');
 app.use('/api/public', example);
 
 // Handle client socket connections to server
-io.on('connection', socket => {
+io.on('connection', (socket) => {
   // Send server time to connected clients
-  socket.emit('time', new Date());
+  setInterval(() => {
+    socket.emit('time', new Date());
+  }, 1000);
   // Join client to a "room" allowing private events to be sent
-  socket.on('join', data => {
+  socket.on('join', (data) => {
     socket.join(data.id);
     io.to(data.id).emit('joined', `User ${data.id} joined`);
   });
   // Log number of connected clients to server
-  console.log('Connected clients: ', io.engine.clientsCount);
+  console.info('Connected clients: ', io.engine.clientsCount);
   // Handle client disconnects
   socket.on('disconnect', () => {
-    console.log('Client disconnected');
-  });
-});
-
-// Connect to mongo DB
-connectMongo(err => {
-  if (err) throw err;
-  // Start listening on server port once connected to DB
-  server.listen(port, err => {
-    if (err) throw err;
-    console.log(`App is running on ${port}`);
+    console.info('Client disconnected');
   });
 });
 
@@ -58,4 +57,14 @@ connectMongo(err => {
 // Routing would otherwise return and error i.e. 'cannot get /someRoute'
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../../public/index.html'));
+});
+
+// Connect to mongo DB
+connectMongo((mongoError) => {
+  if (mongoError) throw mongoError;
+  // Start listening on server port once connected to DB
+  server.listen(port, (serverError) => {
+    if (serverError) throw serverError;
+    console.info(`App is running on ${port}`);
+  });
 });

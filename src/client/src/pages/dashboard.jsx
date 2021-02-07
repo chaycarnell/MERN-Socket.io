@@ -19,17 +19,17 @@ const Render = () => {
   const [status, setStatus] = useState('');
 
   // Socket connection
-  socket.on('time', data => setSocketTime(data));
-  socket.on('joined', data => setStatus(data));
-  socket.on('connect', function() {
+  socket.on('time', (data) => setSocketTime(`Server time: ${data}`));
+  socket.on('joined', (data) => setStatus(data));
+  socket.on('connect', function () {
     socket.emit('join', { id: 'mail@mail.com' });
   });
 
   // Axios API call
   const getStatus = () => {
     axios
-      .get(`/api/example/test`)
-      .then(result => {
+      .get(`${process.env.SERVER_URL}:${process.env.PORT}/api/public/example`)
+      .then((result) => {
         setApiCall(result.data.message);
       })
       .catch(console.log);
@@ -39,7 +39,7 @@ const Render = () => {
   useEffect(() => {
     // Call API
     getStatus();
-  });
+  }, []);
 
   return (
     <>
